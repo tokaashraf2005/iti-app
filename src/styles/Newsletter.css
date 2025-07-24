@@ -1,0 +1,28 @@
+.newsletter-section {
+  background-size: cover;
+  background-position: center;
+  padding: 60px 20px;
+  color: #000;
+}
+
+.newsletter-form .form-control {
+  padding-left: 40px;
+  border: none;
+  border-bottom: 1px solid #ccc;
+  background: transparent;
+  color: #fff;
+}
+
+.email-icon {
+  position: absolute;
+  left: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #555;
+}
+
+.newsletter-section button[type="submit"] {
+  background: none;
+  border: none;
+  color: #777;
+}

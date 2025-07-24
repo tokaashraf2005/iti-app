@@ -1,0 +1,29 @@
+.custom-font-size{
+  font-size: 56px;
+}
+
+
+
+
+
+/*=====================================================VARIABLES============================================================*/
+
+:root {
+  --light-bg: #f2f4f6;
+  --primary-color: #0d6efd;
+  --dark-color: #000000;
+  --badge-color: #ffffff;
+  --font-main: "Inter", sans-serif;
+}
+
+.bg-custom-light {
+  background-color: var(--light-bg);
+}
+.font-family-inter{
+  font-family: var(--font-main);
+}
+  
+
+.space{
+      margin-top: 135px;
+}
