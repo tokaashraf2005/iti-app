@@ -12,19 +12,15 @@ const OrderPage = () => {
   const [paymentMethod, setPaymentMethod] = useState('Credit Card');
 
   useEffect(() => {
-    // Load cart data from localStorage
     const cartData = JSON.parse(localStorage.getItem("cart")) || [];
 
-    // Load order details from localStorage
     const orderDetails = JSON.parse(localStorage.getItem("orderDetails"));
     if (orderDetails && orderDetails.payment) {
       setPaymentMethod(orderDetails.payment === 'credit' ? 'Credit Card' : 'PayPal');
     }
 
-    // Generate order code
     setOrderCode(generateOrderCode());
 
-    // Set current date
     const today = new Date();
     const formattedDate = today.toLocaleDateString("en-US", {
       year: "numeric",
@@ -33,7 +29,6 @@ const OrderPage = () => {
     });
     setOrderDate(formattedDate);
 
-    // Calculate total
     const savedTotal = localStorage.getItem("finalTotal");
     if (savedTotal) {
       setTotalAmount(`$${savedTotal}`);
@@ -41,7 +36,6 @@ const OrderPage = () => {
       setTotalAmount(`$${calculateTotal(cartData)}`);
     }
 
-    // Clear cart and discount after a delay
     setTimeout(() => {
       localStorage.removeItem("cart");
       localStorage.removeItem("discountPercent");
