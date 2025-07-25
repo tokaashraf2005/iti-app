@@ -30,7 +30,11 @@ function ShopFilters({ category, setCategory, priceRange, setPriceRange, sortBy,
 
           <div className="col-md-5 d-flex justify-content-md-end align-items-center gap-3">
             <div className="dropdown">
-              <button className="btn bg-transparent text-dark p-0 d-flex align-items-center dropdown-toggle" type="button" data-bs-toggle="dropdown">
+              <button
+                className="btn bg-transparent text-dark p-0 d-flex align-items-center dropdown-toggle"
+                type="button"
+                data-bs-toggle="dropdown"
+              >
                 <span className="fw-semibold">Sort by</span>
               </button>
               <ul className="dropdown-menu">
@@ -40,10 +44,25 @@ function ShopFilters({ category, setCategory, priceRange, setPriceRange, sortBy,
                 <li><button className="dropdown-item" onClick={() => setSortBy('name-desc')}>Name: Z to A</button></li>
               </ul>
             </div>
+
             <div className="shop-view d-flex gap-2 border rounded overflow-hidden">
               {['view-grid-4', 'view-grid-2', 'view-column', 'view-list'].map((mode) => (
-                <button key={mode} className={`btn view-btn btn-sm ${viewMode === mode ? 'active' : ''}`} onClick={() => setViewMode(mode)}>
-                  <i className={`fas ${mode === 'view-grid-4' ? 'fa-th' : mode === 'view-grid-2' ? 'fa-th-large' : mode === 'view-column' ? 'fa-columns' : 'fa-bars'}`} />
+                <button
+                  key={mode}
+                  className={`btn view-btn btn-sm ${viewMode === mode ? 'active' : ''}`}
+                  onClick={() => setViewMode(mode)}
+                >
+                  <i
+                    className={`fas ${
+                      mode === 'view-grid-4'
+                        ? 'fa-th'
+                        : mode === 'view-grid-2'
+                        ? 'fa-th-large'
+                        : mode === 'view-column'
+                        ? 'fa-columns'
+                        : 'fa-bars'
+                    }`}
+                  />
                 </button>
               ))}
             </div>

@@ -1,13 +1,11 @@
 import React, { useState } from 'react';
 import '../styles/shop.css';
 import productsData from '../data/productsShop';
-import ShopBanner from '../components/ShopBanner';
-import ShopFilters from '../components/ShopFilters';
-import ProductGrid from '../components/ProductGrid';
-import ShowMoreButton from '../components/ShowMoreButton';
-import Newsletter from '../components/Newsletter';
-
-
+import ShopBanner from '../components/shop/ShopBanner';
+import ShopFilters from '../components/shop/ShopFilters';
+import ProductGrid from '../components/shop/ProductGrid';
+import ShowMoreButton from '../components/shop/ShowMoreButton';
+import Newsletter from '../components/layout/Newsletter';
 
 function ShopPage() {
   const [category, setCategory] = useState('All');
@@ -18,7 +16,7 @@ function ShopPage() {
   const filteredProducts = productsData
     .filter((product) => {
       const matchCategory = category === 'All' || product.category === category;
-      const price = product.price;
+       const price = product.oldPrice;
       let matchPrice = true;
       switch (priceRange) {
         case '$0.00 - $99.99':
@@ -70,9 +68,7 @@ function ShopPage() {
         viewMode={viewMode}
         setViewMode={setViewMode}
       />
-
       <ProductGrid products={filteredProducts} viewMode={viewMode} />
-
       <ShowMoreButton />
       <Newsletter /> 
       

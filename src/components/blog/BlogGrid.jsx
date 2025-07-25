@@ -1,7 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-
 const blogPosts = [
   {
     img: '../assets/images/blog1.png',

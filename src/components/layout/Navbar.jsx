@@ -1,24 +1,13 @@
+import { Link, useLocation } from 'react-router-dom';
 import React, { useState, useEffect } from 'react';
 import { Offcanvas, Dropdown, Tooltip } from 'bootstrap';
+import { useCart } from '../../context/CartContext';
 
 const Navbar = () => {
-  const [cart, setCart] = useState([]);
   const [showSearch, setShowSearch] = useState(false);
   const [showDiscountBar, setShowDiscountBar] = useState(true);
-
-  // Initialize cart from localStorage
-  useEffect(() => {
-    const savedCart = JSON.parse(localStorage.getItem('cart')) || [];
-    setCart(savedCart);
-  }, []);
-
-  // Save cart to localStorage when it changes
-  useEffect(() => {
-    if (cart.length > 0) {
-      localStorage.setItem('cart', JSON.stringify(cart));
-    }
-    updateCartBadge();
-  }, [cart]);
+  const location = useLocation();
+  const { cart, removeFromCart, updateQuantity, calculateSubtotal } = useCart();
 
   // Initialize Bootstrap components
   useEffect(() => {
@@ -26,6 +15,7 @@ const Navbar = () => {
     const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
     tooltipTriggerList.map(tooltipTriggerEl => {
       return new Tooltip(tooltipTriggerEl);
+    
     });
 
     // Dropdowns
@@ -37,48 +27,18 @@ const Navbar = () => {
 
   const updateCartBadge = () => {
     const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
-    localStorage.setItem('cartCount', totalItems);
     document.querySelectorAll('.cart-badge').forEach(badge => {
       badge.textContent = totalItems;
       badge.style.display = totalItems > 0 ? 'block' : 'none';
     });
   };
 
-  const addToCart = (product) => {
-    const existingItem = cart.find(item => item.name === product.name);
-    if (existingItem) {
-      setCart(cart.map(item => 
-        item.name === product.name 
-          ? {...item, quantity: item.quantity + 1} 
-          : item
-      ));
-    } else {
-      setCart([...cart, {...product, quantity: 1}]);
-    }
-  };
-
-  const removeFromCart = (index) => {
-    const newCart = [...cart];
-    newCart.splice(index, 1);
-    setCart(newCart);
-  };
-
-  const updateQuantity = (index, newQuantity) => {
-    if (newQuantity < 1) return;
-    const newCart = [...cart];
-    newCart[index].quantity = newQuantity;
-    setCart(newCart);
-  };
-
-  const calculateSubtotal = () => {
-    return cart.reduce((sum, item) => {
-      const price = parseFloat(item.price.replace('$', ''));
-      return sum + (price * item.quantity);
-    }, 0).toFixed(2);
-  };
+  useEffect(() => {
+    updateCartBadge();
+  }, [cart]);
 
   const isActiveLink = (path) => {
-    return window.location.pathname === path;
+    return location.pathname === path;
   };
 
   return (
@@ -93,7 +53,7 @@ const Navbar = () => {
           </svg>
 
           <p className="mb-0 discount-text">30% off storewide — <strong>Limited time!</strong></p>
-          <a href="/shop"
+          <Link to="/shop"
             className="shop-link d-none d-lg-block d-flex align-items-center lh-base border-bottom border-primary gap-2 text-decoration-none text-primary">
             <span>Shop Now</span>
             <svg className="arrow-icon text-primary" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
@@ -101,7 +61,7 @@ const Navbar = () => {
               strokeLinejoin="round" width="20">
               <path d="M5 12h14M12 5l7 7-7 7" />
             </svg>
-          </a>
+          </Link>
           <svg className="close-btn position-absolute end-0 me-5 d-block" onClick={() => setShowDiscountBar(false)} 
             style={{cursor: 'pointer'}} xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"
@@ -113,14 +73,14 @@ const Navbar = () => {
       )}
 
       {/* Main Navbar */}
-      <nav className="navbar navbar-expand-lg bg-light">
+      <nav className="navbar position-fixed navbar-expand-lg top-0 start-0 w-100 z-3  bg-light">
         <div className="container">
           <div className="toggle-logo-custom d-flex align-items-center gap-2 flex-grow-1">
             <button className="navbar-toggler border-0" type="button" data-bs-toggle="offcanvas"
               data-bs-target="#mobileMenu" aria-controls="mobileMenu" aria-label="Toggle navigation">
               <span className="navbar-toggler-icon"></span>
             </button>
-            <a className="navbar-brand fw-bold fs-3" href="/">3legant.</a>
+            <Link className="navbar-brand fw-bold fs-3" to="/">3legant.</Link>
           </div>
           
           {/* Mobile Cart Icon */}
@@ -144,20 +104,20 @@ const Navbar = () => {
             {/* Main Navigation Links */}
             <ul className="navbar-nav mb-2 mb-lg-0 d-flex gap-5">
               <li className="nav-item">
-                <a className={`nav-link ${isActiveLink('/') ? 'active fw-bolder text-dark' : 'text-secondary fw-medium'}`} 
-                  href="/">Home</a>
+                <Link className={`nav-link ${isActiveLink('/') ? 'active fw-bolder text-dark' : 'text-secondary fw-medium'}`} 
+                  to="/">Home</Link>
               </li>
               <li className="nav-item">
-                <a className={`nav-link ${isActiveLink('/shop') ? 'active fw-bolder text-dark' : 'text-secondary fw-medium'}`} 
-                  href="/shop">Shop</a>
+                <Link className={`nav-link ${isActiveLink('/shop') ? 'active fw-bolder text-dark' : 'text-secondary fw-medium'}`} 
+                  to="/shop">Shop</Link>
               </li>
               <li className="nav-item">
-                <a className={`nav-link ${isActiveLink('/blog') ? 'active fw-bolder text-dark' : 'text-secondary fw-medium'}`} 
-                  href="/blog">Blog</a>
+                <Link className={`nav-link ${isActiveLink('/blog') ? 'active fw-bolder text-dark' : 'text-secondary fw-medium'}`} 
+                  to="/blog">Blog</Link>
               </li>
               <li className="nav-item">
-                <a className={`nav-link ${isActiveLink('/contact') ? 'active fw-bolder text-dark' : 'text-secondary fw-medium'}`} 
-                  href="/contact">Contact Us</a>
+                <Link className={`nav-link ${isActiveLink('/contact') ? 'active fw-bolder text-dark' : 'text-secondary fw-medium'}`} 
+                  to="/contact">Contact Us</Link>
               </li>
             </ul>
 
@@ -186,13 +146,13 @@ const Navbar = () => {
 
               {/* User Icon */}
               <li className="nav-item">
-                <a className="nav-link" href="/">
+                <Link className="nav-link" to="/account">
                   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                     strokeWidth="2" stroke="currentColor" width="24">
                     <path strokeLinecap="round" strokeLinejoin="round"
                       d="M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963 0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275M15 9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
                   </svg>
-                </a>
+                </Link>
               </li>
 
               {/* Cart Icon */}
@@ -232,10 +192,10 @@ const Navbar = () => {
 
           {/* Offcanvas Links */}
           <ul className="navbar-nav mb-4">
-            <li className="nav-item"><a className={`nav-link border-bottom p-3 ${isActiveLink('/') ? 'active' : ''}`} href="/">Home</a></li>
-            <li className="nav-item"><a className={`nav-link border-bottom p-3 ${isActiveLink('/shop') ? 'active' : ''}`} href="/shop">Shop</a></li>
-            <li className="nav-item"><a className={`nav-link border-bottom p-3 ${isActiveLink('/blog') ? 'active' : ''}`} href="/blog">Blog</a></li>
-            <li className="nav-item"><a className={`nav-link border-bottom p-3 mb-4 ${isActiveLink('/contact') ? 'active' : ''}`} href="/contact">Contact</a></li>
+            <li className="nav-item"><Link className={`nav-link border-bottom p-3 ${isActiveLink('/') ? 'active' : ''}`} to="/">Home</Link></li>
+            <li className="nav-item"><Link className={`nav-link border-bottom p-3 ${isActiveLink('/shop') ? 'active' : ''}`} to="/shop">Shop</Link></li>
+            <li className="nav-item"><Link className={`nav-link border-bottom p-3 ${isActiveLink('/blog') ? 'active' : ''}`} to="/blog">Blog</Link></li>
+            <li className="nav-item"><Link className={`nav-link border-bottom p-3 mb-4 ${isActiveLink('/contact') ? 'active' : ''}`} to="/contact">Contact</Link></li>
           </ul>
 
           {/* Cart Section */}
@@ -267,20 +227,20 @@ const Navbar = () => {
           <div className="d-flex justify-content-between align-items-center border-bottom py-3">
             <p className="fw-semibold text-uppercase mb-0 text-secondary">Wishlist</p>
             <div className="d-flex align-items-center gap-2">
-              <a className="nav-link p-0" href="#">
+              <Link className="nav-link p-0" to="/wishlist">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="2"
                   stroke="currentColor" width="25">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935
                           0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1
                           3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z" />
                 </svg>
-              </a>
+              </Link>
               <span className="badge rounded-circle bg-dark text-white px-2 py-1">0</span>
             </div>
           </div>
           
           {/* Sign In Button */}
-          <button className="bg-dark w-100 text-white p-2 my-4 rounded fw-bold">Sign In</button>
+          <Link to="/login" className="bg-dark w-100 text-white p-2 my-4 rounded fw-bold text-center d-block">Sign In</Link>
 
           {/* Social Media Icons */}
           <div className="d-flex justify-content-center gap-3">
@@ -357,8 +317,8 @@ const Navbar = () => {
               <strong>Total</strong>
               <strong>${calculateSubtotal()}</strong>
             </div>
-            <a href="/checkout" className="btn btn-dark w-100 mt-3 checkout-link">Checkout</a>
-            <a href="/cart" className="btn btn-outline-dark w-100 mt-2 view-cart-link">View Cart</a>
+            <Link to="checkout" className="btn btn-dark w-100 mt-3 checkout-link">Checkout</Link>
+            <Link to="cart" className="btn btn-outline-dark w-100 mt-2 view-cart-link">View Cart</Link>
           </div>
         </div>
       </div>

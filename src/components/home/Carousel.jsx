@@ -1,7 +1,4 @@
-// src/components/Carousel.jsx
 import React from 'react';
-// No specific state needed for basic Bootstrap carousel functionality,
-// as it relies on Bootstrap's JS data attributes.
 
 function Carousel() {
   return (
@@ -24,7 +21,6 @@ function Carousel() {
         {/* ------- Carousel slides -------- */}
         <div className="carousel-inner">
           <div className="carousel-item active">
-            {/* Image paths should refer to public folder for React apps */}
             <img src="/assets/images/1.jpg" className="d-block w-100 " alt="Carousel slide 1" />
           </div>
           <div className="carousel-item">

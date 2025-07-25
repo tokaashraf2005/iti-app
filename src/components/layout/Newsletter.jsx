@@ -1,6 +1,6 @@
 import React from 'react';
-import '../styles/Newsletter.css';
-import bgImage from '../assets/images/Placeholder.png';
+import '../../styles/Newsletter.css';
+import bgImage from '../../assets/images/Placeholder.png';
 
 function Newsletter() {
   return (

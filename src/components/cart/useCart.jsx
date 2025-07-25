@@ -9,7 +9,7 @@ export default function useCart() {
   const [cartCount, setCartCount] = useState(0);
 
   useEffect(() => {
-    // Update cart count whenever cart changes
+    // Update cart count 
     const count = cart.reduce((sum, item) => sum + item.quantity, 0);
     setCartCount(count);
     localStorage.setItem("cart", JSON.stringify(cart));

@@ -1,10 +1,8 @@
 import React, { useEffect } from 'react';
-import Newsletter from '../components/Newsletter';
-import BlogGrid from '../components/BlogGrid';
-import BlogBanner from '../components/BlogBanner';
-import BlogFilterBar from '../components/BlogFilterBar';
-
-
+import Newsletter from '../components/layout/Newsletter';
+import BlogGrid from '../components/blog/BlogGrid';
+import BlogBanner from '../components/blog/BlogBanner';
+import BlogFilterBar from '../components/blog/BlogFilterBar';
 
 const Blog = () => {
   useEffect(() => {
@@ -18,13 +16,9 @@ const Blog = () => {
 
         const view = icon.getAttribute('data-view');
         const posts = blogGrid.querySelectorAll('.col-12');
-
-        // Reset all post columns
         posts.forEach(post => {
-          post.className = 'col-12'; // reset
+          post.className = 'col-12'; 
         });
-
-        // Reset blogGrid classes
         blogGrid.classList.remove('columns-view', 'horizontal-view', 'grid-2');
 
         switch (view) {
@@ -61,8 +55,3 @@ const Blog = () => {
 };
 
 export default Blog;
-
-
-
-
-

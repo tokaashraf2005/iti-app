@@ -1,4 +1,3 @@
-// src/components/FormSection.jsx
 import React, { useState } from 'react';
 
 function FormSection() {
@@ -18,7 +17,7 @@ function FormSection() {
   };
 
   const handleSubmit = (e) => {
-    e.preventDefault(); // Prevent default browser form submission
+    e.preventDefault(); 
     console.log('Form submitted:', formData);
     alert('Message sent successfully (check console for data)!');
     setFormData({
@@ -120,7 +119,7 @@ function FormSection() {
                 allowFullScreen=""
                 loading="lazy"
                 referrerPolicy="no-referrer-when-downgrade"
-                title="Location of 3legant Store on Google Maps" // FIXED: Added title for accessibility
+                title="Location of 3legant Store on Google Maps" 
               ></iframe>
             </div>
           </div>
@@ -130,4 +129,4 @@ function FormSection() {
   );
 }
 
-export default FormSection;
+export default FormSection; 
